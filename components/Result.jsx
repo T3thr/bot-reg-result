@@ -16,7 +16,7 @@ export default function Result() {
     const fetchGrades = async () => {
       setLoading(true);
       try {
-        const res = await fetch('/api/checkgrade?lineUserId=yourLineUserId'); // Adjust lineUserId dynamically
+        const res = await fetch('/api/checkgrade'); // Adjust lineUserId dynamically
         const data = await res.json();
 
         if (data.success) {
