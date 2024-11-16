@@ -1,100 +1,52 @@
-/* Result.module.css */
-
-.resultContainer {
+/* styles/Result.module.css */
+.result-container {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #f4f7f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    margin: auto;
-  }
-  
-  .title {
-    font-size: 2rem;
-    color: #333;
     text-align: center;
-    margin-bottom: 20px;
   }
   
-  .analysis {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  input {
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
   }
   
-  .analysis h2 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
   }
   
-  .analysis p {
-    font-size: 1rem;
-    color: #555;
-  }
-  
-  .eValMessage {
-    font-weight: bold;
-    color: #d84f1b;
-  }
-  
-  .gradesContainer {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .semester {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .semesterTitle {
-    font-size: 1.25rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .subjectList {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .subjectList li {
-    font-size: 1rem;
-    color: #555;
-    margin: 5px 0;
-  }
-  
-  .subjectList li strong {
-    font-weight: bold;
-  }
-  
-  .eValSubject {
-    background-color: #e8f0fe;
-    border-left: 4px solid #3f84f5;
-  }
-  
-  .eValTag {
-    background-color: #ffb400;
-    padding: 2px 6px;
-    font-size: 0.875rem;
-    color: #fff;
-    border-radius: 4px;
-    margin-left: 10px;
-  }
-  
-  .loadingContainer, .errorContainer {
-    text-align: center;
-    padding: 50px 0;
+  button:disabled {
+    background-color: #ccc;
   }
   
   .error {
     color: red;
-    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  
+  .grades-container {
+    margin-top: 20px;
+  }
+  
+  .semester {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  h3 {
+    color: #007bff;
   }
   

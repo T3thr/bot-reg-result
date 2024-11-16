@@ -1,82 +1,64 @@
 // components/Result.jsx
-'use client';
-
-import { useState, useEffect } from 'react';
-import styles from './Result.module.css';  // Make sure to create your custom styles
+'use client'
+import { useState } from 'react';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-export default function Result() {
+const Result = () => {
+  const [lineUserId, setLineUserId] = useState('');
   const [grades, setGrades] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [analysis, setAnalysis] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchGrades = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch('/api/checkgrade'); // Adjust lineUserId dynamically
-        const data = await res.json();
+  const handleCheckGrades = async () => {
+    setLoading(true);
+    setError(null);
 
-        if (data.success) {
-          setGrades(data.grades);
-          setAnalysis(data.analysis);
-        } else {
-          setError(data.error || 'Failed to fetch grades.');
-        }
-      } catch (err) {
-        setError('An error occurred while fetching grades.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGrades();
-  }, []);  // Empty dependency array means it runs on mount
-
-  if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <p>Loading grades...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.errorContainer}>
-        <p className={styles.error}>{error}</p>
-      </div>
-    );
-  }
+    try {
+      const response = await axios.post('/api/checkgrade', { lineUserId });
+      setGrades(response.data.grades);
+    } catch (err) {
+      setError('Failed to fetch grades. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className={styles.resultContainer}>
-      <h1 className={styles.title}>Your Grade Results</h1>
+    <div className="result-container">
+      <h1>Check Your Grades</h1>
+      <input
+        type="text"
+        placeholder="Enter your Line User ID"
+        value={lineUserId}
+        onChange={(e) => setLineUserId(e.target.value)}
+      />
+      <button onClick={handleCheckGrades} disabled={loading}>
+        {loading ? 'Loading...' : 'Check Grades'}
+      </button>
 
-      {/* Display the analysis */}
-      <div className={styles.analysis}>
-        <h2>Analysis</h2>
-        <p>{analysis?.message}</p>
-        {analysis?.eValMessage && <p className={styles.eValMessage}>{analysis.eValMessage}</p>}
-      </div>
+      {error && <p className="error">{error}</p>}
 
-      {/* Display the grades */}
-      <div className={styles.gradesContainer}>
-        {grades.map((semester, index) => (
-          <div key={index} className={styles.semester}>
-            <h2 className={styles.semesterTitle}>{semester.semester}</h2>
-            <ul className={styles.subjectList}>
-              {semester.subjects.map((subject, idx) => (
-                <li key={idx} className={subject.isEVal ? styles.eValSubject : ''}>
-                  <strong>{subject.grade}</strong> - {subject.isEVal && <span className={styles.eValTag}>e-val</span>} {`Subject ${idx + 1}`}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      {grades && (
+        <div className="grades-container">
+          {Object.keys(grades).map((semester) => (
+            <div key={semester} className="semester">
+              <h3>{semester}</h3>
+              <p>Total Subjects: {grades[semester].totalSubjects}</p>
+              <p>Graded Subjects: {grades[semester].gradedSubjects}</p>
+              <p>E-Val Subjects: {grades[semester].eValSubjects}</p>
+              <ul>
+                {grades[semester].subjects.map((subject, index) => (
+                  <li key={index}>{subject}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default Result;
